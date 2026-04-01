@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import AppShell from "./components/layout/AppShell";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
@@ -19,31 +20,34 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={token ? <Navigate to="/" replace /> : <LoginPage />}
-      />
-      <Route
-        path="/register"
-        element={token ? <Navigate to="/" replace /> : <RegisterPage />}
-      />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <AppShell />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<HomePage />} />
-        <Route path="profile/:username" element={<ProfilePage />} />
-      </Route>
-      <Route
-        path="*"
-        element={<Navigate to={token ? "/" : "/login"} replace />}
-      />
-    </Routes>
+    <>
+      <Routes>
+        <Route
+          path="/login"
+          element={token ? <Navigate to="/" replace /> : <LoginPage />}
+        />
+        <Route
+          path="/register"
+          element={token ? <Navigate to="/" replace /> : <RegisterPage />}
+        />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <AppShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<HomePage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
+        </Route>
+        <Route
+          path="*"
+          element={<Navigate to={token ? "/" : "/login"} replace />}
+        />
+      </Routes>
+      <SpeedInsights />
+    </>
   );
 }
 
